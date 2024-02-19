@@ -1,0 +1,1 @@
+export * from './StarsRating.jsx';

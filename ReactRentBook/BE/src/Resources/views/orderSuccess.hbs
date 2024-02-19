@@ -1,0 +1,31 @@
+<div class="bts-popup" role="alert">
+  <div style="border-radius: 20px;" class="p-4 bts-popup-container">
+    <img src="https://cdn2.iconfinder.com/data/icons/greenline/512/check-512.png" alt="" width="50%" />
+    <h1 class="text-success">Bạn đã thanh toán thành công</h1>
+    <span>Đơn hàng sẽ được xử lý trong giây lát</span>
+    <form action="/order/create-order" method="POST"><button class="mt-2 loginBtn btn btn-danger fw-bold w-100" type="submit">
+        Quay về trang trủ
+    </button></form>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(function () {
+      var popup = document.querySelector(".bts-popup");
+      if (popup) {
+        popup.classList.add("is-visible");
+      }
+    }, 2000);
+
+    var trigger = document.querySelector(".bts-popup-trigger");
+    if (trigger) {
+      trigger.addEventListener("click", function (event) {
+        event.preventDefault();
+        var popup = document.querySelector(".bts-popup");
+        if (popup) {
+          popup.classList.add("is-visible");
+        }
+      });
+    }
+  });
+</script>

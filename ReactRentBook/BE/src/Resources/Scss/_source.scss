@@ -1,0 +1,14 @@
+$mainColor: #FC7981;
+@mixin aTagDefault {
+    text-decoration: none;
+    background-color: $mainColor ;
+    color: #fff;
+}
+
+body{
+    background-color: #f0f0f0;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #c92127;
+}

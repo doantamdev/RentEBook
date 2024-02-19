@@ -1,0 +1,60 @@
+.detail-image_container {
+  border-radius: 30px;
+  border: 1px solid;
+}
+
+.detail_content-pirce {
+  color: #f05b4d;
+  font-size: 18px;
+  font-weight: bold;
+}
+.lq-book-name{
+  font-size: 32px;
+  font-weight: bold;
+}
+.detail-content_cate {
+  color: #a2a1a1;
+  font-size: 24px;
+}
+
+.Tab-pannel {
+  border-radius: 30px;
+}
+
+.table-header {
+  font-weight: bold;
+}
+
+.author-container {
+  border-right: 1px solid;
+  padding: 4px;
+}
+
+.tt-detail{
+  display: flex;
+  width: max-content;
+  margin-left: 180px;
+  height: 800px;
+}
+
+
+.img-detail{
+  margin-right: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .tt-detail{
+   display: block;
+   padding: 16px;
+   margin-left: 10px;
+   width: 400px;
+   height: 500px;
+   margin-bottom: 530px;
+  }
+  .img-detail{
+    margin-bottom: 10px;
+  }
+  .ttsach-detail{
+    margin-right: 30px;
+  }
+}

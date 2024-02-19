@@ -1,0 +1,125 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col col-lg-8">
+            <div class="book__container">
+                <h2>Kiểm tra lại đơn hàng</h2>
+                {{#each cartItems}}
+                <div class="p-3 book__container-item d-flex align-items-center">
+                    <img class="book__container-img" src="{{this.productID.images.[0]}}" alt="Card image cap" />
+                    <div class="p-2 w-75 book__container-info">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="" style="width: 231px;"
+                                class="text-decoration-none link-dark fw-bold book__container-text-title">{{this.productID.name}}</a>
+                            <p class="m-0 book__container-price">{{this.productID.price}}</p>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        <div class="col col-lg-4">
+            <div class="summary">
+                <h1 class="summary__title text-center">Summary</h1>
+                <div class="summary__quantity d-flex justify-content-between">
+                    <p>Số lượng</p>
+                    <p>{{cartItemCount}}</p>
+                </div>
+                <div class="summary__quantity d-flex justify-content-between">
+                    <p>Số ngày thuê:</p>
+                    <p class="fw-bold">{{dayrent}} ngày</p>
+                </div>
+                <div class="summary__total d-flex justify-content-between">
+                    <p class="fw-bold">Tổng số tiền</p>
+                    <p class="fw-bold text-danger summary__total-price">{{formattedPrice}}</p>
+                </div>
+                <div class="form-group fw-bold">
+                    <label>Chọn Phương thức thanh toán:</label>
+                    <label class="control-label">
+                        <div class="controls">
+                            <label class="radio-inline">
+                                <input class="vnPayInput" type="radio" name="bankCode" id="defaultPaymentMethod"
+                                    value="">
+                                Cổng thanh toán VNPAYQR
+                            </label>
+                            <img style="width: 24px;"
+                                src="https://play-lh.googleusercontent.com/o-_z132f10zwrco4NXk4sFqmGylqXBjfcwR8-wK0lO1Wk4gzRXi4IZJdhwVlEAtpyQ"
+                                alt="">
+                            <label class="radio-inline">
+                                <input class="visaInput" type="radio" name="visaCard" id="defaultPaymentMethod"
+                                    value="">
+                                Thanh toán qua thẻ visa <i class="fa-brands fa-cc-visa"></i>
+                            </label>
+                        </div>
+                    </label>
+                </div>
+                </label>
+                <div class="buttonController">
+                    <button class="orderBtn">
+                        <script src="https://js.stripe.com/v3/"></script>
+                        <p class="m-0 fw-bold">Xác nhận thanh toán bằng Visa</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    const vnPayInput = document.querySelector('.vnPayInput');
+    const visaInput = document.querySelector('.visaInput');
+    const orderBtn = document.querySelector('.orderBtn');
+    const btnController = document.querySelector('.buttonController');
+    const stripe = Stripe('pk_test_51NHpM9ClIZrUzZMYLxgxII6dKWMCnkygNz0YhvGdlpkSWjtjaRQPBC2rMXEdTnv9LFx9EmNFR6c7mo8CpEMeDQqV009ZLNm0au');
+    vnPayInput.addEventListener('change', (e) => {
+        if (e.currentTarget.checked) {
+            visaInput.checked = false;
+            const html = `<form action="/order/create_payment_url" method="POST">
+                    <button class="orderBtn" type="submit"><p class="m-0 fw-bold">Xác nhận thanh toán bằng VNPAY</p></button>
+                </form>`
+            btnController.innerHTML = html;
+        }
+    })
+    visaInput.addEventListener('change', (e) => {
+        if (e.currentTarget.checked) {
+            vnPayInput.checked = false;
+
+            const button = document.createElement('button');
+            button.classList.add('orderBtn');
+
+            const script = document.createElement('script');
+            script.src = 'https://js.stripe.com/v3/';
+
+            const paragraph = document.createElement('p');
+            paragraph.classList.add('m-0', 'fw-bold');
+            paragraph.textContent = 'Xác nhận thanh toán bằng Visa';
+
+            button.appendChild(script);
+            button.appendChild(paragraph);
+
+            btnController.innerHTML = '';
+            btnController.appendChild(button);
+
+            button.addEventListener('click', () => {
+                stripe.redirectToCheckout({
+                    sessionId: "{{sessionID}}"
+                })
+                    .then((result) => {
+                        if (result.error) {
+                            // Handle any errors during redirection to the Stripe Checkout page
+                            console.error(result.error);
+                        }
+                    });
+            });
+        }
+    });
+
+    //format price
+    const price = document.querySelectorAll('.book__container-price');
+    price.forEach(priceElement => {
+        const bookPrice = priceElement.textContent;
+        const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(bookPrice);
+        priceElement.textContent = formattedPrice;
+    });
+
+</script>

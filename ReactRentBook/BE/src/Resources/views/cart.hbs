@@ -1,0 +1,69 @@
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col col-lg-8">
+      <div class="book__container">
+        <h2>Giỏ hàng của tôi</h2>
+        {{#each cartItems}}
+        <div class="p-3 book__container-item d-flex align-items-center">
+          <img class="book__container-img" src="{{this.productID.images.[0]}}" alt="Card image cap" />
+          <div class="p-2 w-75 book__container-info">
+            <div class="d-flex justify-content-between align-items-center">
+              <a href="/details/{{this.productID.slug}}" style="width: 231px;"
+                class="text-decoration-none link-dark fw-bold book__container-text-title">{{this.productID.name}}</a>
+              <p class="m-0 book__container-price">{{this.productID.price}}</p>
+              <form action="/cart/deleteCartItem" method="POST">
+                <input type="hidden" value="{{this.productID._id}}" name="productId" />
+                <button class="p-0 book__container-deleteBtn link-danger" type="submit"><i
+                    class='fa-solid fa-trash'></i></button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {{else}}
+        <img src="https://www.adasglobal.com/img/empty-cart.png" alt="">
+        {{/each}}
+      </div>
+    </div>
+    <div class="col col-lg-4">
+      <form action="/cart/postcart" method="POST">
+        <div class="summary">
+          <h1 class="summary__title text-center">Summary</h1>
+          <div class="summary__quantity d-flex justify-content-between">
+            <p>Số lượng</p>
+            <p>{{cartItemCount}}</p>
+          </div>
+          <div class="summary__total d-flex justify-content-between">
+            <p class="fw-bold">Tổng tiền thuê 1 ngày</p>
+            <p class="total-price text-danger"></p>
+          </div>
+          <div class="form-group fw-bold">
+            <label>Chọn ngày thuê</label>
+            <label for="date" class="control-label">
+              <div class="controls">
+                <input class="datePicker" type="date" id="date" name="date">
+            </label>
+          </div>
+          </label>
+        </div>
+        <button type="submit" class="orderBtn">
+          <p class="m-0 fw-bold">Order Now!</p>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const bookPrice = "{{totalPrice}}";
+  const totalPrice = document.querySelector('.total-price');
+  const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(bookPrice);
+  totalPrice.textContent = formattedPrice;
+
+  const price = document.querySelectorAll('.book__container-price');
+  price.forEach(priceElement => {
+    const bookPrice = priceElement.textContent;
+    const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(bookPrice);
+    priceElement.textContent = formattedPrice;
+  });
+</script>

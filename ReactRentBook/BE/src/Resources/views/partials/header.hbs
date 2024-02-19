@@ -1,0 +1,104 @@
+<header>
+  <div class="container header">
+    <a href="/"><img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/fahasa-logo.png"
+        class="header__img" alt="Image" /></a>
+    <form class="w-100 d-flex justify-content-center" action="/" method="GET">
+      <input class="search" type="text" placeholder="    Tìm kiếm sách mong muốn...    " />
+    </form>
+    <div class="d-flex align-items-center w-25 justify-content-around">
+      <ul class="navbarController list-unstyled m-0 p-o">
+
+      </ul>
+      <a class="shoppingcartBtn" href="/cart"><i class="fa-solid fa-cart-shopping"></i></a>
+    </div>
+  </div>
+</header>
+
+<style>
+  header {
+    background-color: #FC7981;
+  }
+
+  .header {
+    display: flex;
+    height: 70px;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .search {
+    background-color: white;
+    border-radius: 10px;
+    height: 40px;
+    width: 50%;
+    border: none;
+    margin: auto;
+  }
+</style>
+
+<script>
+  let header = document.querySelector('.navbarController');
+  const username = localStorage.getItem('userName');
+  const accessToken = localStorage.getItem('accessToken');
+  const logoutApi = 'https://hiredabook.onrender.com/user/logout';
+  if (accessToken) {
+    const html = `
+      <li class='nav-item dropdown nav-item-profile'>
+        <a class='nav-link userNameBtn dropdown-toggle' href='#' id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-expanded='false'></a>
+        <ul class='dropdown-menu r-0' aria-labelledby='navbarDropdown'>
+          <li class='dropdown-item'>
+            <a class='nav-link' href='/myBook'>Sách Của Tôi</a>
+          </li>
+          {{!-- <li class='dropdown-item'>
+            <a class='nav-link' href='/createForm'>Tạo Sách Mới</a>
+          </li> --}}
+          <li><hr class='dropdown-divider' /></li>
+          <li><a class='logoutBtn dropdown-item text-danger'>Đăng xuất</a></li>
+        </ul>
+      </li>`;
+
+    header.innerHTML = html;
+
+    const userNameDisplay = document.querySelector('.userNameBtn');
+    userNameDisplay.textContent = username;
+
+    const logoutBtn = document.querySelector('.logoutBtn');
+    logoutBtn.addEventListener('click', async (e) => {
+      try {
+        const res = await fetch(logoutApi, {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json',
+            'token': `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        });
+        if (res.ok) {
+          localStorage.removeItem('accessToken');
+          location.reload();
+        }
+      } catch (err) {
+        alert(err);
+      }
+    });
+  } else {
+    const htmls = `
+        <li class='nav-item dropdown nav-item-profile'>
+        <a class='nav-link userNameBtn dropdown-toggle' href='#' id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-expanded='false'></a>
+        <ul class='dropdown-menu r-0' aria-labelledby='navbarDropdown'>
+          <li class='nav-item text-center mb-1 p-2'>
+            <a class='loginBtn btn btn-danger fw-bold w-100' href='http://localhost:3000/loginform'>Đăng nhập</a>
+          </li>
+          <li class='nav-item text-center mb-3 p-2'>
+            <a class='text-decoration-none registernBtn btn btn-link text-danger border border-danger w-100' href='http://localhost:3000/registerform'>Đăng ký</a>
+          </li>
+        </ul>
+      </li>`;
+
+    header.innerHTML = htmls;
+    const userNameDisplay = document.querySelector('.userNameBtn');
+    userNameDisplay.innerHTML = `<i class="fa-solid fa-user"></i>`;
+  }
+
+
+</script>

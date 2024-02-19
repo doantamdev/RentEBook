@@ -1,0 +1,42 @@
+.cart-container {
+  border-radius: 30px;
+  border: 1px solid #a7a7a7;
+  padding: 32px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.cart_img {
+  width: 200px;
+}
+.cart_price {
+  color: #f05b4d;
+
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.cart_delete-btn {
+  color: #f05b4d;
+  font-size: 24px;
+}
+
+.cart_order-btn {
+  width: 100%;
+  border-radius: 30px;
+  border: 1px solid;
+  background-color: #f05b4d;
+  padding: 12px;
+  height: 100%;
+  margin-top: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .namebook-cart{
+    display: table-row;
+    margin-right: 10px;
+  }
+  .thongtin-sachthue{
+    margin-right: 30px;
+  }
+}

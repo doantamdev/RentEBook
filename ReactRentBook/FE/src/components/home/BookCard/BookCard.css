@@ -1,0 +1,20 @@
+.author-name {
+  color: #989494;
+  font-size: 16px;
+  font-weight: 700;
+}
+.book-price {
+  color: #f05b4d;
+  font-size: 16px;
+  font-weight: 700;
+}
+.book-name{
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.book-img {
+  width: 100%;
+  height: 290px;
+  object-fit: cover;
+}

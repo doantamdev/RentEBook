@@ -1,0 +1,137 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2">
+      <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark h-100">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+          <svg class="bi pe-none me-2" width="40" height="32">
+            <use xlink:href="#bootstrap" />
+          </svg>
+          <span class="fs-4">Admin</span>
+        </a>
+        <hr />
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item">
+            <a href="#" class="nav-link active" aria-current="page">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#home" />
+              </svg>
+              Orders
+            </a>
+          </li>
+          <li>
+            <a href="http://localhost:3000/admin/trash/order" class="nav-link text-white">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#speedometer2" />
+              </svg>
+              Trash
+            </a>
+          </li>
+          <li>
+            <a href="/chart" class="nav-link text-white">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#table" />
+              </svg>
+              Chart
+            </a>
+          </li>
+          <li>
+            <a href="/createForm" class="nav-link text-white">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#grid" />
+              </svg>
+              Tạo sách mới
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link text-white">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#people-circle" />
+              </svg>
+              Customers
+            </a>
+          </li>
+        </ul>
+        <hr />
+      </div>
+    </div>
+    <div class="col-lg-10">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên Người Dùng</th>
+            <th scope="col">Mã Hóa Đơn</th>
+            <th scope="col">Ngày hết hạn</th>
+            <th scope='col'>
+              <div>
+                <a href='/admin/trash/order' class='position-relative text-danger container__trashBtn'>
+                  <i class='fa-solid fa-trash'></i>
+                  <div class='container__deletedCount'>
+                    <p class='deletedCount m-0'>{{deletedCount}}</p>
+                  </div>
+                </a>
+              </div>
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {{#each orders}}
+          <tr>
+            <th scope='row'>{{sum @index 1}}</th>
+            <td>{{this.user.name}}</td>
+            <td>{{this._id}}</td>
+            <td>{{this.timerent}}</td>
+            <td><a type='button' class='btn btn-danger' data-id='{{this._id}}' data-bs-toggle='modal'
+                data-bs-target='#exampleModal'><i class='fa-solid fa-trash'></i></a></td>
+          </tr>
+
+          {{else}}
+          <tr>
+            <th class='text-center border-0' colspan='5'>
+              Bạn chưa có đơn hàng nào
+            </th>
+          </tr>
+          {{/each}}
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<form method='POST' name='delete-form'></form>
+<div class='modal' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title text-bold' id='exampleModalLabel'>Xóa Đơn Hàng ?</h5>
+        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+      </div>
+      <div class='modal-body'>
+        Bạn có muốn xóa Đơn Hàng ?
+      </div>
+      <div class='modal-footer'>
+        <button type='button' class='btn btn-primary delete-btn'>Xóa</button>
+        <button type='button' class='btn btn-danger' data-bs-dismiss='modal'>Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var id;
+  $(document).ready(function () {
+    $('#exampleModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      id = button.data('id');
+      console.log(id);
+    });
+
+    const deleteButton = document.querySelector('.delete-btn');
+    console.log(deleteButton);
+    deleteButton.onclick = function () {
+      const deleteForm = document.forms['delete-form'];
+      deleteForm.action = '/admin/' + id + '?_method=DELETE';
+      deleteForm.submit();
+    };
+  });
+</script>

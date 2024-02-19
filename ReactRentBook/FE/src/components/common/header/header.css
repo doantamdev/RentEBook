@@ -1,0 +1,110 @@
+header {
+  background-color: #fff;
+  box-shadow: 0 5px 30px rgb(0 22 84 / 10%);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 99999;
+  font-family: Arial, Helvetica, sans-serif;
+}
+header a:hover {
+  color: #f4402f;
+}
+header img {
+  width: 140px;
+  height: 55px;
+  margin-bottom: 10px;
+}
+
+.search-btn {
+  margin-top: 3px;
+}
+
+.cart-btn {
+  margin-top: 3px;
+}
+
+header a {
+  margin-left: 30px;
+  transition: 0.5s;
+  font-weight: 500;
+}
+
+.nav li {
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+header span {
+  width: auto;
+  padding: 0px 6px;
+  background: #f4402f;
+  border-radius: 50px;
+  color: #ffffff;
+  margin-right: 4px;
+  font-weight: 400;
+}
+
+header h4 {
+  font-weight: 500;
+  margin-right: 20px;
+}
+
+header .toggle {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  header {
+    padding: 0;
+  }
+
+  header img {
+    margin-top: 10px;
+  }
+
+  header .button {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 20px;
+  }
+
+  header .nav .flex {
+    display: none;
+  }
+
+  header a:hover {
+    color: whitesmoke;
+    font-weight: bold;
+  }
+
+  header .toggle {
+    display: block;
+    margin-top: 0.5px;
+  }
+
+  header .small {
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    width: 100%;
+    background-color: #f4402f;
+    padding: 20px;
+  }
+
+  header li a {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  .search-btn {
+    margin-top: 3px;
+  }
+  .cart-btn {
+    margin-top: 3px;
+  }
+}
+.signup-btn {
+  background-color: #f4402f !important;
+}

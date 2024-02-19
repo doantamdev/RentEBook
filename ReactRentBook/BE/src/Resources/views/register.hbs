@@ -1,0 +1,26 @@
+<form action='/user/register' method='POST' class='form' id='form-1'>
+    <div class="container">
+        <div class="box">
+            <h1>Đăng ký</h1>
+            <div class='form-group'>
+                <label for='username' class='form-label'>User Name:</label>
+                <input id='username' name='username' type='text' placeholder='VD: MinkPeo' class='form-control' />
+                <span class='form-message'></span>
+            </div>
+            <div class='form-group'>
+                <label for='gmail' class='form-label'>Gmail</label>
+                <input id='gmail' name='gmail' type='email' placeholder='VD: abc@gmail.com' class='form-control' />
+                <span class='form-message'></span>
+            </div>
+            <div class='form-group'>
+                <label for='password' class='form-label'>Mật khẩu:</label>
+                <input id='password' name='password' type='password' placeholder='Nhập mật khẩu' class='form-control' />
+            </div>
+            <div class="buttonContainer">
+                <a href='/loginform'>
+                    <span class='text-center d-block mb-2'>Đã có tài khoản ?</span>
+                </a>
+            </div>
+            <button type="submit" class="text-decoration-none registernBtn btn btn-link text-danger border border-danger fw-bold">Đăng ký</button>
+        </div>
+</form>

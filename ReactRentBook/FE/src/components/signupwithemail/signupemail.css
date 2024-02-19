@@ -1,0 +1,18 @@
+.form_container {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.btn-login {
+  background-color: #f65d4e !important;
+}
+
+@media screen and (max-width: 1000px) {
+  .form_container {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .form_container {
+    width: 65%;
+  }
+}

@@ -1,0 +1,20 @@
+.GenresBook {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+  }
+
+.genres{
+    margin-top: 20px;
+    width: 400px;
+    height: 200px;
+    display: flex;
+    align-items: left;
+    border-radius: 10px;
+    justify-content: left;
+}
+.genresname{
+    color: #fff;
+    margin-top: 140px;
+    font-size: 25px;
+    margin-left: 15px;
+}

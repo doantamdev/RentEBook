@@ -1,0 +1,47 @@
+<div class="container">
+  <h1 class="text-center">Sách của tôi</h1>
+  <div class="row">
+    {{#each productDataArray}}
+    {{#each this}}
+    <div class="mt-3 col-md-6 col-lg-3">
+      <div class="readbookContainer">
+        <img style="width: 240px; height:330px;" src="{{this.images.[0]}}" alt="" class="readbookContrainer__img">
+        <div class="readbookContainer__title text-center fw-bold p-2">
+          <p class="readbookContainer__title-name">{{this.name}}</p>
+          <form>
+            <button class="border-none addtocartBtn" data-productid="{{this._id}}" type="button">ĐỌC NGAY</button>
+            <input type="hidden" id="productID" name="productID" value="{{this._id}}">
+          </form>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+    {{/each}}
+  </div>
+</div>
+
+<script>
+  const addToCartBtn = document.querySelectorAll('.addtocartBtn');
+  const addTOCartAPI = 'http://localhost:3000/postLinkBook';
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+  };
+
+  addToCartBtn.forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const id = e.target.dataset.productid;
+      try {
+        const response = await axios.post(addTOCartAPI, { token: localStorage.getItem('accessToken'), productID: id }, {
+          headers: headers
+        });
+        if (response.status === 200) {
+          const url = response.data.url;
+          window.location.href = url;
+        }
+      } catch (error) {
+        alert(error);
+      }
+    });
+  })
+</script>

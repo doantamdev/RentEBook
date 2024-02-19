@@ -1,0 +1,59 @@
+<form action='/user/login' method='POST' class='form' id='form-1'>
+  <div class="container">
+    <div class="box">
+      <h1>Đăng nhập</h1>
+      <div class='form-group'>
+        <label for='username' class='form-label'>User Name:</label>
+        <input id='username' name='username' type='text' placeholder='VD: MinkPeo' class='form-control' />
+        <span class='form-message'></span>
+      </div>
+      <div class='form-group'>
+        <label for='password' class='form-label'>Mật khẩu:</label>
+        <input id='password' name='password' type='password' placeholder='Nhập mật khẩu' class='form-control' />
+      </div>
+      <div class="buttonContainer">
+        <a href='/registerform'>
+          <span class='text-center d-block mb-2'>Đăng ký tài khoản</span>
+        </a>
+        <a href='/user/forgetPasswordform'>
+          <span class='text-center d-block mb-2'>Quên mật khẩu ?</span>
+        </a>
+      </div>
+      <button type="submit" class="loginBtn btn btn-danger fw-bold">Đăng nhập</button>
+    </div>
+</form>
+
+<script>
+  const loginapi = '{{loginAPI}}';
+  const formElement = document.querySelector('#form-1');
+
+  formElement.addEventListener('submit', async function (e) {
+    try {
+      e.preventDefault();
+      const userInput = document.querySelector('#username').value;
+      const passwordInput = document.querySelector('#password').value;
+
+      const res = await fetch(loginapi, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: userInput,
+          password: passwordInput,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem('userName', data.username);
+        window.location.href = '/';
+      } else {
+        alert('Your username or password is incorrect');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+</script>

@@ -1,0 +1,120 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img class="banner__img"
+              src="https://cdn0.fahasa.com/media/magentothem/banner7/Fahasa_Sinhnhat_Co_Logo_Slide_840x320.jpg" alt="">
+          </div>
+          <div class="swiper-slide">
+            <img class="banner__img"
+              src="https://cdn0.fahasa.com/media/magentothem/banner7/NCCDiamondT823_NhaNam_BannerSlide_840x320.jpg"
+              alt="">
+          </div>
+          <div class="swiper-slide">
+            <img class="banner__img"
+              src="https://cdn0.fahasa.com/media/magentothem/banner7/Deli_PlatinumT723_Slide_840x320.jpg" alt="">
+          </div>
+          <div class="swiper-slide">
+            <img class="banner__img" src="https://cdn0.fahasa.com/media/magentothem/banner7/Resize_840x320.png" alt="">
+          </div>
+          <div class="swiper-slide">
+            <img class="banner__img"
+              src="https://cdn0.fahasa.com/media/magentothem/banner7/MCbooks_PlatinumT723_Banner_Slide_840x320.jpg"
+              alt="">
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="div">
+        <img src="https://cdn0.fahasa.com/media/wysiwyg/Thang-08-2023/VNPayT8_392x156.jpg" alt=""
+          class="mb-2 h-50 banner__img">
+      </div>
+      <div class="div">
+        <img src="https://cdn0.fahasa.com/media/wysiwyg/Thang-08-2023/ZaloPayT8_392x156.jpg" alt=""
+          class="h-50 banner__img">
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="mt-3">
+    <div class="row">
+      {{#each books}}
+      <div class="col-md-6 col-lg-4">
+        <div class="bookinfo-container mb-4">
+          <div class="bookinfo__imgContainer">
+            <a href="/details/{{this.slug}}">
+              <img style="width: 95px; height:145px" src="{{this.images.[0]}}" alt=""
+                class="bookinfo__imgContainer-img m-2">
+            </a>
+          </div>
+          <div class="bookinfo__text">
+            <h2 class="bookinfo__text-header">{{this.name}}</h2>
+            <span class="bookinfo__text-description">{{this.author.name}}</span>
+            <p class="bookinfo__text-price">{{this.price}}</p>
+            {{!-- <a class="btn bookinfo__text-btn" href="">Thuê ngay</a> --}}
+            <form>
+              <button class="btn addtocartBtn" data-productid="{{this._id}}" type="button">Add to cart</button>
+              <input type="hidden" id="productID" name="productID" value="{{this._id}}">
+            </form>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+  const addToCartBtn = document.querySelectorAll('.addtocartBtn');
+  const addToCartAPI = '{{addtocartAPI}}';
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+  };
+
+  addToCartBtn.forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const id = e.target.dataset.productid;
+      try {
+        const response = await axios.post(addToCartAPI, { token: localStorage.getItem('accessToken'), productID: id }, {
+          headers: headers
+        });
+        if (response.status === 200) {
+          alert('Đã thêm sản phẩm vào giỏ hàng thành công');
+        }
+      } catch (error) {
+        alert(error);
+      }
+    });
+  })
+
+  // Format Price
+  const price = document.querySelectorAll('.bookinfo__text-price');
+  price.forEach(priceElement => {
+    const bookPrice = priceElement.textContent;
+    const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(bookPrice);
+    priceElement.textContent = formattedPrice;
+  });
+
+  //Banner slider
+  const swiper = new Swiper(".mySwiper", {
+    slidesPerView: 1,
+    centeredSlides: true,
+    spaceBetween: 30,
+    grabCursor: true,
+    pagination: {
+      el: ".swiper-pagination",
+    },
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+  });
+</script>

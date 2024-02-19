@@ -1,0 +1,97 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark h-100">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <svg class="bi pe-none me-2" width="40" height="32">
+                        <use xlink:href="#bootstrap" />
+                    </svg>
+                    <span class="fs-4">Admin</span>
+                </a>
+                <hr />
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="http://localhost:3000/admin/stored/order" class="nav-link text-white"
+                            aria-current="page">
+                            <svg class="bi pe-none me-2" width="16" height="16">
+                                <use xlink:href="#home" />
+                            </svg>
+                            Orders
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:3000/admin/trash/order" class="nav-link text-white ">
+                            <svg class="bi pe-none me-2" width="16" height="16">
+                                <use xlink:href="#speedometer2" />
+                            </svg>
+                            Trash
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/chart" class="nav-link text-white active">
+                            <svg class="bi pe-none me-2" width="16" height="16">
+                                <use xlink:href="#table" />
+                            </svg>
+                            Chart
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link text-white">
+                            <svg class="bi pe-none me-2" width="16" height="16">
+                                <use xlink:href="#grid" />
+                            </svg>
+                            Products
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link text-white">
+                            <svg class="bi pe-none me-2" width="16" height="16">
+                                <use xlink:href="#people-circle" />
+                            </svg>
+                            Customers
+                        </a>
+                    </li>
+                </ul>
+                <hr />
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <div style="width: 800px; margin:0 auto;">
+                <canvas id="acquisitions"></canvas>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Include the Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = "{{response.labels}}";
+    const counts = "{{response.counts}}";
+    const labelsArray = labels.split(',');
+    const countsArray = counts.split(',');
+    new Chart(
+        document.getElementById('acquisitions'),
+        {
+            type: 'bar',
+            data: {
+                labels: labelsArray,
+                datasets: [
+                    {
+                        label: 'Các cuốn sách đã được thuê',
+                        data: countsArray,
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        }
+    );
+</script>

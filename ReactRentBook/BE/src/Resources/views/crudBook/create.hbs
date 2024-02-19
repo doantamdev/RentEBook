@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="formBox">
+    <div class='m-4'>
+      <form method='post' action='/postbook' enctype="multipart/form-data">
+        <h2 class="text-center fw-bold">Create New Book</h2>
+        <div class='form-group m-2'>
+          <label for='name'>Name of the book</label>
+          <input type='text' class='form-control' id='name' name='name' />
+        </div>
+        <div class='form-group m-2'>
+          <label for='price'>Price per day</label>
+          <input type='text' class='form-control' id='price' name='price' />
+        </div>
+        <div class='form-group m-2'>
+          <label for='description'>Description</label>
+          <textarea type='text' class='form-control' id='description' name='description'>
+
+      </textarea>
+        </div>
+        <div class='form-group m-2'>
+          <label for='author'>Author</label>
+          <select name="author">
+            <option value="">Select an author</option>
+            {{#each author}}
+            <option value="{{this._id}}">{{this.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class='form-group m-2'>
+          <label for='genres'>Genres</label>
+          <input type='text' class='form-control' id='genres' name='genres' />
+        </div>
+        <div class='form-group m-2'>
+          <label for='images'>Images</label>
+          <input type='file' multiple='multiple' class='form-control' id='images' name='images' />
+        </div>
+        <div class='form-group m-2'>
+          <label for='pdfFile'>File of the Book</label>
+          <input type='file' class='form-control' id='pdfFile' name='pdfFile' />
+        </div>
+        <button style="background-color: #FC7981;" type='submit' class='w-100 btn btn-primary'>Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

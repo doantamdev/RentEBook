@@ -1,0 +1,173 @@
+<div class="container">
+    <div class="d-flex mt-5 p-4 details">
+        <div style="margin-right: 8px;" class="listOfImage">
+            <img class="mb-4 border listOfImage__item" src="/{{book.images.[0]}}" alt="">
+            <img class="mb-4 border listOfImage__item" src="/{{book.images.[1]}}" alt="">
+            <img class="border listOfImage__item" src="/{{book.images.[2]}}" alt="">
+            <img class="border listOfImage__item" src="/{{book.images.[3]}}" alt="">
+
+        </div>
+        <div class="details__bigImg">
+            <img class="details__bigImg-item" src="/{{book.images.[0]}}" alt="">
+        </div>
+        <div class="details__info w-100">
+            <h1 class="details__info-title text-center">{{book.name}}</h1>
+            <div class="details__info-book text-end">
+                <span>Tác giả:</span>
+                <span class="fw-bold">{{book.author.name}}</span>
+            </div>
+            <div class="d-flex align-items-center">
+                Gía thuê:
+                <h3 class="p-2 fw-bold text-danger details__info-price">
+                    {{book.price}}
+                </h3>
+                <p class="m-0">/Ngày</p>
+            </div>
+            <div class="d-flex align-items-center details__btn-controller">
+                <div class='details__btn-controller-item details__btn-controller-item--hover text-decoration-none registernBtn btn btn-link text-danger border border-danger'
+                    href='' data-productid="{{book._id}}"><i class="fa-solid fa-cart-shopping"></i>Thêm vào giỏ hàng
+                </div>
+                <div class='details__btn-controller-item buynowBtn loginBtn btn btn-danger fw-bold'
+                    href='' data-productid="{{book._id}}">Thuê ngay
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 12px;" class="p-3 description details">
+        <h3 class="description__header">Thông tin sản phẩm</h3>
+        <table class="w-100">
+            <tbody class="description__info-table">
+                <tr class="description__info-item">
+                    <th>Mã hàng:</th>
+                    <td>{{book._id}}</td>
+                </tr>
+                <tr class="description__info-item">
+                    <th>Tác giả:</th>
+                    <td>{{book.author.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <span>{{book.description}}</span>
+    </div>
+    <div style="margin-top: 12px;" class="p-3 authorBook details">
+        <h3>Sản phẩm liên quan</h3>
+        {{!-- <div class="row">
+            {{#each authorBook}}
+            <div class="col col-lg-3">
+                <a href="/details/{{this.slug}}" class="border d-block authorBook__btn">
+                    <div class="d-flex justify-content-center w-100 h-100 authorBook__containImg">
+                        <img style="height: 200px;" class="img-fluid " src="/{{this.images.[0]}}" alt=""
+                            class="authorBook__img">
+                    </div>
+                </a>
+                <div class="authorBook__info">
+                    <a href="/details/{{this.slug}}"
+                        class="link-dark text-decoration-none authorBook__detailsBtn">{{this.name}}</a>
+                    <p class="text-danger fw-bold">{{this.price}}đ</p>
+                </div>
+            </div>
+            {{/each}}
+        </div> --}}
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                {{#each authorBook}}
+                <div class="swiper-slide">
+                    <a href="/details/{{this.slug}}" class="border d-block authorBook__btn">
+                        <div class="d-flex justify-content-center w-100 h-100 authorBook__containImg">
+                            <img style="height: 200px;" class="img-fluid " src="/{{this.images.[0]}}" alt=""
+                                class="authorBook__img">
+                        </div>
+                    </a>
+                    <div class="authorBook__info">
+                        <a href="/details/{{this.slug}}"
+                            class="link-dark text-decoration-none authorBook__detailsBtn">{{this.name}}</a>
+                        <p class="text-danger fw-bold">{{this.price}}đ</p>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id="caption"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+    const addToCartAPI = '{{addToCartAPI}}';
+    const addtocartBtn = document.querySelector('.details__btn-controller-item--hover');
+    const buynowBtn = document.querySelector('.buynowBtn');
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+    };
+    buynowBtn.addEventListener('click', async (e) => {
+        const id = e.target.dataset.productid;
+        try {
+            const response = await axios.post(addToCartAPI, { token: localStorage.getItem('accessToken'), productID: id }, {
+                headers: headers
+            });
+            if (response.status === 200) {
+                window.location.href = '/cart'
+            }
+        } catch (error) {
+            alert(error);
+        }
+    })
+
+    addtocartBtn.addEventListener('click', async (e) => {
+            const id = e.target.dataset.productid;
+            try {
+                const response = await axios.post(addToCartAPI, { token: localStorage.getItem('accessToken'), productID: id }, {
+                    headers: headers
+                });
+                if (response.status === 200) {
+                    alert('Đã thêm sản phẩm vào giỏ hàng thành công');
+                }
+            } catch (error) {
+                alert(error);
+            }
+        })
+    const modal = document.getElementById("myModal");
+    // Get the images and insert them inside the modal - use their "alt" text as a caption
+    const imgList = document.querySelectorAll(".listOfImage__item");
+    const modalImg = document.getElementById("img01");
+    const bookPrice = "{{book.price}}";
+    const price = document.querySelector('.details__info-price');
+    const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(bookPrice);
+    price.textContent = formattedPrice;
+
+    // Loop through each image and add a click event listener
+    imgList.forEach(function (img) {
+        img.onclick = function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+        }
+    });
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    //Swiper
+    const swiper = new Swiper(".mySwiper", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        grabCursor: true,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+
+
+</script>

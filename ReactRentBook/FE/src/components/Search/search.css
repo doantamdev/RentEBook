@@ -1,0 +1,16 @@
+.search{
+    margin-top: 10px;
+    margin-bottom: 100px;
+}
+
+.title{
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+@media (max-width: 800px) {
+    .booksearch{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
